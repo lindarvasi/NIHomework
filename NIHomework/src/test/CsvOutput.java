@@ -46,7 +46,7 @@ public class CsvOutput implements SiteMapOutput {
 	}
 
 	/**
-	 * Write the given string to the file
+	 * Create a string from the given parameters and call write method
 	 */
 	@Override
 	public void write(Integer id, int parentId, final int level, final String url) {
@@ -55,7 +55,7 @@ public class CsvOutput implements SiteMapOutput {
 	}
 	
 	/**
-	 * Write the given string to the file
+	 * Create a string from the given parameters and call write method	 
 	 */
 	@Override
 	public void write(Integer id, int parentId, final int level, final String url, int urlListSize) {
@@ -63,6 +63,10 @@ public class CsvOutput implements SiteMapOutput {
 		write(id + "," + pId + "," + level + "," + url + urlListSize + ",\n");
 	}	
 
+	/**
+	 * Write the given string to the file
+	 * @param param
+	 */
 	private void write(String param) {
 		try {
 			// write the parameter in the file

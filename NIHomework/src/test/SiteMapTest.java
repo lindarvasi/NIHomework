@@ -148,7 +148,6 @@ public class SiteMapTest {
 	/**
 	 * Create the sitemap recursively.
 	 * 
-	 * TODO, 0,1?
 	 * If depth value is 1, then just the first page is loaded and the links of
 	 * this page will be print out to the output file.
 	 * 

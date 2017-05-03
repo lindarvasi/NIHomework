@@ -1,9 +1,9 @@
 package test;
 
 /**
+ * Collected constants of general utility.
  * 
  * @author Melinda, Gáborné Darvasi
- *
  */
 public class Keys {
 

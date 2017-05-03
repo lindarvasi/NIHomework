@@ -1,0 +1,6 @@
+output when input url=https://www.google.hu, depth=1
+ID, PARENT ID, LEVEl, URL, NUMBER OF LINKS, OUTER_HTML
+1,,0,https://www.google.hu,3,,
+2,1,1,https://www.google.hu,,<a href....>
+3,1,1,https://www.google.hu,,<a href....>
+4,1,1,https://www.google.hu,,<a href....>

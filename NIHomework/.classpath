@@ -21,7 +21,6 @@
 	<classpathentry kind="lib" path="lib/jna-4.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/jna-platform-4.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.12.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2-api-2.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-api-2.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-core-2.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/netty-3.5.7.Final.jar"/>

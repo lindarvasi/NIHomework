@@ -124,8 +124,8 @@ public class SiteMapTest {
 		startUrl = prop.getProperty(Keys.URL);
 		depth = Integer.parseInt(prop.getProperty(Keys.FOLLOW_DEPTH));
 		followIncludePattern = Pattern.compile(prop.getProperty(Keys.FOLLOW_INCLUDE));
-		String browserUrl = prop.getProperty(Keys.BROWSER_URL);
-		String outputFile = prop.getProperty(Keys.OUTPUT_FILE);
+		String browserUrl = prop.getProperty(Keys.BROWSER);
+		String outputFile = prop.getProperty(Keys.OUTPUT);
 
 		// init Selenium Webdriver
 		File pathBinary = new File(browserUrl);

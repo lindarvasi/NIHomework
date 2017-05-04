@@ -53,18 +53,19 @@ public class CsvOutput implements SiteMapOutput {
 		String pId = parentId < 0 ? "" : String.valueOf(parentId);
 		write(id + "," + pId + "," + level + "," + url + ",\n");
 	}
-	
+
 	/**
-	 * Create a string from the given parameters and call write method	 
+	 * Create a string from the given parameters and call write method
 	 */
 	@Override
 	public void write(Integer id, int parentId, final int level, final String url, int urlListSize) {
 		String pId = parentId < 0 ? "" : String.valueOf(parentId);
-		write(id + "," + pId + "," + level + "," + url + urlListSize + ",\n");
-	}	
+		write(id + "," + pId + "," + level + "," + url + "," + urlListSize + "\n");
+	}
 
 	/**
 	 * Write the given string to the file
+	 * 
 	 * @param param
 	 */
 	private void write(String param) {
@@ -77,9 +78,9 @@ public class CsvOutput implements SiteMapOutput {
 			logger.error(e.getMessage());
 		}
 	}
-	
+
 	/**
-	 *  Close the opened <code>OutputStreamWriter</code> 
+	 * Close the opened <code>OutputStreamWriter</code>
 	 */
 	@Override
 	public void close() {

@@ -27,21 +27,25 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 
 /**
  * 
- * The <code>SiteMapTest</code> creates a list of pages of a website accessible to users. The
- * entry point and the max level of fetching come from the config.properties file. The
- * config file also contains a regex pattern to filter which links have to be visited by the program.
- * This can be used to limit the scope of sitemap to a certain domain or even to a subset of pages.  
+ * The <code>SiteMapTest</code> creates a list of pages of a website accessible
+ * to users. The entry point and the max level of fetching come from the
+ * config.properties file. The config file also contains a regex pattern to
+ * filter which links have to be visited by the program. This can be used to
+ * limit the scope of sitemap to a certain domain or even to a subset of pages.
  * 
- * As a Unit Test, a next step could be comparing the fetched sitemap to an existing, expected output sitemap.
+ * As a Unit Test, a next step could be comparing the fetched sitemap to an
+ * existing, expected output sitemap.
  * 
  * In the output file there will be a list of urls with id and parent id and the
- * number of links on each page.
- * When max level is reached, the link is not fetched, hence the number of links will not be reported.
+ * number of links on each page. When max level is reached, the link is not
+ * fetched, hence the number of links will not be reported.
  * 
- * If a page is accessible from multiple urls,it will be listed again,but with different parent id.
- * Such pages are only fetched at most once, i.e. fetched once if they are reachable within the max level.
+ * If a page is accessible from multiple urls,it will be listed again,but with
+ * different parent id. Such pages are only fetched at most once, i.e. fetched
+ * once if they are reachable within the max level.
  * 
- * This program is only looking for a href... javascript, css script img src - no,
+ * This program is only looking for a href... javascript, css script img src -
+ * no,
  * 
  * 
  * @author Melinda, Gáborné Darvasi
@@ -101,34 +105,37 @@ public class SiteMapTest {
 	public void init() {
 		logger.info("init started");
 
-		// init Selenium Webdriver
-		File pathBinary = new File(Keys.BROWSER_URL);
-		FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);
-		FirefoxProfile firefoxProfile = new FirefoxProfile();
-		driver = new FirefoxDriver(firefoxBinary, firefoxProfile);
+		// init nextId field
+		nextId = 0;
+
+		// init collections
+		idByUrl = new HashMap<>();
+		visitedUrls = new HashSet<>();
 
 		// load config.properties file
 		Properties prop = new Properties();
 		try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(Keys.CONFIG_FILE)) {
 			prop.load(is);
 		} catch (IOException e) {
-			logger.error(e.getMessage());			
+			logger.error(e.getMessage());
 		}
 		
-		// init output file
-		out = new CsvOutput(Keys.OUTPUT_FILE);
-
-		// init nextId field
-		nextId = 0;
-
 		// load config parameters from properties file
-		depth = Integer.parseInt(prop.getProperty(Keys.FOLLOW_DEPTH));
 		startUrl = prop.getProperty(Keys.URL);
+		depth = Integer.parseInt(prop.getProperty(Keys.FOLLOW_DEPTH));
 		followIncludePattern = Pattern.compile(prop.getProperty(Keys.FOLLOW_INCLUDE));
+		String browserUrl = prop.getProperty(Keys.BROWSER_URL);
+		String outputFile = prop.getProperty(Keys.OUTPUT_FILE);
 
-		// init collections
-		idByUrl = new HashMap<>();
-		visitedUrls = new HashSet<>();
+		// init Selenium Webdriver
+		File pathBinary = new File(browserUrl);
+		FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);
+		FirefoxProfile firefoxProfile = new FirefoxProfile();
+		driver = new FirefoxDriver(firefoxBinary, firefoxProfile);
+
+		// init output file
+		out = new CsvOutput(outputFile);
+
 		logger.info("init finished");
 	}
 
@@ -167,9 +174,9 @@ public class SiteMapTest {
 	 * 
 	 * @param url
 	 * @param level
-	 * @param parentId	
+	 * @param parentId
 	 */
-	public void collectLinks(final String url, final int level, int parentId) {		
+	public void collectLinks(final String url, final int level, int parentId) {
 		logger.info("collectLinks started");
 		logger.info("url:" + url);
 
@@ -226,15 +233,17 @@ public class SiteMapTest {
 				if (href == null) {
 					continue;
 				}
-				// ignoring the fragment part of the links (part after the hashtag)
-				// because they refer to the same page, should not affect the sitemap.
+				// ignoring the fragment part of the links (part after the
+				// hashtag)
+				// because they refer to the same page, should not affect the
+				// sitemap.
 				href = href.replaceAll("#.*$", "");
 
 			} catch (StaleElementReferenceException e) {
 				logger.error("Skipping over stale element" + element);
 				continue;
 			}
-			// only register a link once and ignore self-links 
+			// only register a link once and ignore self-links
 			if (urlList.contains(href) || url.equals(href)) {
 				continue;
 			}
@@ -244,7 +253,7 @@ public class SiteMapTest {
 		}
 
 		// print out link and linkList size
-		out.write(id,parentId,level,url,urlList.size());
+		out.write(id, parentId, level, url, urlList.size());
 
 		// build sitemap recursively
 		for (String childUrl : urlList) {
